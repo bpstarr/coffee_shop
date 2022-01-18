@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+    <title>Menu</title>
+</head>
+<body>
+    <nav class="navbar-light navbar navbar-expand-sm p-2" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
+        <div class="container">
+            <span class="navbar-brand mb-0 display-2" style="color: #fd5523;"><h1>Camo Cafe</h1></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            {% if 'employee_id' in session%}
+            <span class="navbar-brand ml-5 mb-0 display-2" style="color: #fd5523;"><h1>Welcome {{employees.first_name}}</h1></span>
+            {% endif %}
+            {% if 'customer_id' in session %}
+            <span class="navbar-brand ml-5 mb-0 display-2" style="color: #fd5523;"><h1>Welcome {{customers.first_name}}</h1></span>
+            {% endif %}
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    {% if 'customer_id' in session or 'employee_id' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/logout" style="color: #ffffff; background-color: #fd5523;">Logout</a>
+                    </li>
+                    {% if 'customer_id' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/customer/{{customers.id}}" style="color: #ffffff; background-color: #fd5523;">Edit Account</a>
+                    </li>
+                    {% endif %}
+                    {% if 'employee_id' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/employee/{{employees.id}}" style="color: #ffffff; background-color: #fd5523;">Edit Account</a>
+                    </li>
+                    {% endif %}
+                    {% else %}
+                    <li class="nav-item">
+                            <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/registration" style="color: #ffffff; background-color: #fd5523;">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-3" href="/login" style="color: #ffffff; background-color: #fd5523;">Login</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-3" href="/" style="color: #ffffff; background-color: #fd5523;">Home</a>
+                    </li>
+                    {% if 'employee_id' not in session %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4 " style = "background-color: #fd5523; color :#ffffff" href="/cart"> 
+                            <img class = "img-fluid mx-auto" src= "{{ url_for('static', filename='pics/cart.png') }}" style = "max-width: 35%;" alt ="cart"> {{"%.0f"|format(quantity_total)}}</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+        {% with messages = get_flashed_messages(category_filter=["message"]) %}     <!-- declare a variable called messages -->
+            {% if messages %}                            <!-- check if there are any messages -->
+                {% for message in messages %}            <!-- loop through the messages -->
+                    <h2 class = "text-danger text-center font-weight-bold">{{message}}</h2>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}     <!-- declare a variable called messages -->
+            {% if messages %}                            <!-- check if there are any messages -->
+                {% for message in messages %}            <!-- loop through the messages -->
+                    <h2 class = "text-success text-center font-weight-bold">{{message}}</h2>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if 'employee_id' in session %}
+        
+        
+    <div class="container">
+        <div class = 'container' style = 'background-color: #095736;'>
+            <div class = 'd-flex justify-content-around' style = "background-color: #095736;">
+                <form action = '/create_item' method = 'POST' enctype = "multipart/form-data" style = "background-color: #095736; color:#ffffff;" class = 'mt-2 col-6'>
+                    <h3 style = "color:#fd5523">Add Item</h3>
+                    <div class="form-group mt-2">
+                        <label for="name" class = 'ml-2 mt-2'>Name:</label>
+                        <input type="text" name = "name" class="form-control col-6" id="name" aria-describedby="emailHelp" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class = 'ml-2'>Description:</label>
+                        <input type="text" name = "description" class="form-control col-6" id="description" placeholder="Description">
+                    </div>
+                    <div class ="form-group">
+                        <label for="picture" class = 'ml-2'>Set a menu Picture:</label>
+                        <input class="form-control-file col-6 pt-1 pb-1 m" style = "background-color: #095736; color:#fd5523;" type = "file" name="picture">
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class = 'ml-2'>Category:</label>                        
+                        <input type="text" name = "category" class="form-control col-6" id="category" placeholder="Category">
+                        </div>
+                        <input type="submit" value ="Add menu item" class="btn mb-3 ml-2" style="color: #ffffff; background-color: #cc0505;">
+                </form>
+                <form action="/add_item_size" method = 'POST' style = "background-color: #095736; color:#ffffff;" class = 'mt-2 col-6d'>
+                    <h3 style = "color:#fd5523">Add Item Size</h3>
+                    <div class="form-group">
+                        <label for="name" class = 'mt-4'>Size:</label>
+                        <select name="name" id="size" class="form-control col-6 mt-2">
+                            <option value="Small">Small</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Large">Large</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="Price">Price:</label>
+                        <input type="text" name = "price" class="form-control col-6" id="Price" placeholder="Price">
+                    </div>
+                    <label for="item_name">Item name:</label>
+                    <select name="menu_id" id="id" class="form-control col-10">
+                        {% for item in show_items %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value = "Add Size for item" class="btn mb-2 mt-3 ml-3" style="color: #ffffff; background-color: #cc0505;">
+                </form>
+            </div>
+        </div>
+            {% with errors = get_flashed_messages(category_filter=['error']) %}     <!-- declare a variable called messages -->
+                {% if errors %}                            <!-- check if there are any messages -->
+                    {% for message in errors %}            <!-- loop through the messages -->
+                        <p class = "text-danger">{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="container">
+                <div class = "d-flex justify-content-around">
+                    {% for item in show_items %}
+                    <div class="card mb-2 mt-2" style="width:20rem; background-color: #095736; color:white">
+                        <h4 class ="card-text ml-2 mt-2">{{item.name}}</h4>
+                        <img class ="card-img-top" src="{{image_file}}{{item.picture}}" alt="menu image">
+                        <div class = "card-body">
+                            <p class ='card-text'> {{item.description}}</p>
+                        </div>
+                        <a href="/item/{{item.id}}" class="btn mb-2 mt-3 ml-3" style="width:5rem;color: #ffffff; background-color: #cc0505;">edit</a>
+                        {% with errors = get_flashed_messages(category_filter=['success']) %}     <!-- declare a variable called messages -->
+                            {% if success %}                            <!-- check if there are any messages -->
+                                {% for message in success %}            <!-- loop through the messages -->
+                                    <p class = "text-danger">{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+        </div>
+            {% endif %}
+            {% if 'employee_id' not in session%}
+    <div class="container">
+        <div class = "d-flex justify-content-around">
+            {% for item in show_items %}
+            <div class="card mb-2 mt-2" style="width:20rem; background-color: #095736; color:white">
+                <h4 class ="card-text ml-2 mt-2">{{item.name}}</h4>
+                <img class ="card-img-top" src="{{image_file}}{{item.picture}}" alt="menu image">
+                <div class = "card-body">
+                    <p class ='card-text'> {{item.description}}</p>
+                </div>
+                <form method="POST" action ="/add_to_cart">                    
+                    <div class="form-group" id = 'nav'>
+                    <input type="hidden" name = 'product_id' value = '{{item.id}}'>
+                    <label for="name" class = 'mt-4 ml-2' style = "color: #fd5523;">Size:</label>
+                    <select name="size_name" id="size_name-{{item.id}}" onchange = "getPrice(this.value,{{item.id}},quantity)">
+                        <option value =''>Select</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                    <div class="form-group">
+                        <label for="Quantity" style="color: #fd5523" class = "ml-2 mt-3"> Quantity:</label>
+                        <input type="number" id = "quantity-{{item.id}}" class = "ml-1" name = 'quantity' value = "1" min= "1" max = "99" onchange = "updatePrice(this.value,{{item.id}},document.getElementById('size_name-{{item.id}}').value)">
+                    </div>
+                    <div class="form-group">
+                        <p style = "color:#fd5523" id = 'print_price-{{item.id}}' class = "ml-2"> Price: $ </p>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class = 'btn ml-3' style = "background-color: #fd5523" value = 'Add to cart'>
+                    </div>
+                </form>
+                {% with errors = get_flashed_messages(category_filter=['success']) %}     <!-- declare a variable called messages -->
+                    {% if success %}                            <!-- check if there are any messages -->
+                        {% for message in success %}            <!-- loop through the messages -->
+                            <p class = "text-danger">{{message}}</p>                   <!-- display each message in a paragraph tag -->
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+    <footer class="footer pt-5 pb-5" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src= "{{ url_for('static',filename='logic.js') }}"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</body>
+</html>
