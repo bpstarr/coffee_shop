@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Edit Menu</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico')}}" type="image/x-icon"/>
 </head>
 <body>
     <nav class="navbar-light navbar navbar-expand-sm p-2" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
@@ -25,6 +26,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-primary border-0 mx-3 px-3" href="/menu" style="color: #ffffff; background-color: #fd5523;">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/order_board" style="color: #ffffff; background-color: #fd5523;">Orders</a>
                     </li>
                 </ul>
             </div>
@@ -73,7 +77,7 @@
                         <input type="text" name = "price" class="form-control col-6" id="print_price-{{item.id}}" placeholder="Price" >
                     </div>
                     <label for="item_name">Item name:</label>
-                    <select name="menu_id" id="id" class="form-control col-10">
+                    <select name="product_id" id="id" class="form-control col-10">
                         <option value="{{item.id}}">{{item.name}}</option>
                     </select>
                     <input type="submit" value = "Edit Size for Item" class="btn mb-2 mt-3 ml-3" style="color: #ffffff; background-color: #cc0505;">

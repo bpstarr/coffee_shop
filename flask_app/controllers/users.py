@@ -1,12 +1,17 @@
-from itertools import product
-from flask import render_template,request,session,flash,redirect,Blueprint,abort,url_for,json
+import secrets
+import stripe
+import os
+import ast
+import pdfkit
+from flask import render_template,request,session,flash,redirect,url_for,make_response
 from flask_app import app
 from flask_app.models.customer import Customer
 from flask_app.models.employee import Employee
 from flask_app.models.size import Size
 from flask_app.models.menu import Menu
+from flask_app.models.order import Order
 from flask_bcrypt import Bcrypt
-import stripe
+
 bcrypt = Bcrypt(app)
 
 @app.route('/')
@@ -213,7 +218,8 @@ def destroy_customer(id):
         'id':session['customer_id']
     }
     Customer.destroy_user(data)
-    flash('Account Deleted')
+    session.clear()
+    flash('Account Deleted', category = 'success')
     return redirect('/')
 
 @app.route('/destroy_employee/<int:id>')
@@ -221,20 +227,9 @@ def destroy_employee(id):
     if 'employee_id' not in session:
         return redirect('/')
     data = {
-        'id':session['customer_id']
+        'id':session['employee_id']
     }
     Employee.destroy_user(data)
-    flash('Account Deleted')
+    session.clear()
+    flash('Account Deleted', category='success')
     return redirect('/')
-
-
-
-
-
-    
-    
-    
-
-
-        
-

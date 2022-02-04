@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <div class = 'table-responsive-lg'>
+        <h5>Invoice: {{invoice}}</h5>
+        <h5>Order Status: {{order.order_status}}</h5>
+        <h5>Name: {{customers.first_name}} {{customers.last_name}}</h5>
+        <h5>Order Status: {{customers.email}}</h5>
+        <table class = "table" style = "background-color: #095736; color: #ffffff;">
+            <thead>
+                <tr>
+                    <th scope = 'col'>Name</th>
+                    <th scope = 'col'>Price</th>
+                    <th scope = 'col'>Size</th>
+                    <th scope = 'col'>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for key, product in tuple_order.items() %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>${{ "%.2f"|format(product.price|float * product.quantity|int)}}</td>
+                    <td>{{product.size}}</td>
+                    <td>{{product.quantity}}</td>
+                </tr>
+            </tbody>
+            {% endfor %}
+    </div>
+    <div container ="row justify-content-center">
+        <div class = "col-auto">
+            <table class = "table table-responsive">
+                <tbody>
+                    <tr>
+                        <td><h5>Total: ${{"%.2f"|format(grand_total)}}</h5></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

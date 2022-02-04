@@ -44,7 +44,7 @@ class Size():
 
     @classmethod
     def edit_size(cls,data):
-        query = "UPDATE sizes SET name = %(name)s, price = %(price)s,menu_id = %(menu_id)s WHERE id = %(id)s;"
+        query = "UPDATE sizes SET price = %(price)s WHERE menu_id = %(product_id)s AND name = %(name)s;"
         results = connectToMySQL('coffee_shop').query_db(query,data)
         print(results)
         return results
@@ -94,6 +94,7 @@ class Size():
         if not PRICE_REGEX.match(data['price']):
             flash('Price must be a number')
             is_valid = False
+
         return is_valid
         
 

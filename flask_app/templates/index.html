@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
     <title>Landing Page</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico')}}" type="image/x-icon">
 </head>
 <body>
     <nav class="navbar-light navbar navbar-expand-sm p-2" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
@@ -47,6 +48,9 @@
                     <li class="nav-item">
                         <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/employee/{{employees.id}}" style="color: #ffffff; background-color: #fd5523;">Edit Account</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary border-0 mx-3 px-4" href="/order_board" style="color: #ffffff; background-color: #fd5523;">Orders</a>
+                    </li>
                     {% endif %}
                     {% if 'customer_id' in session %}
                     <li class="nav-item">
@@ -58,6 +62,13 @@
             </div>
         </div>
     </nav>
+    {% with messages = get_flashed_messages(category_filter=["success"]) %}     <!-- declare a variable called messages -->
+            {% if messages %}                            <!-- check if there are any messages -->
+                {% for message in messages %}            <!-- loop through the messages -->
+                    <h2 class = "text-success text-center font-weight-bold">{{message}}</h2>                   <!-- display each message in a paragraph tag -->
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     <main class="p-5">
         <div class="container">
             <section class="mb-4">

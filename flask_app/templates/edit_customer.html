@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
     <title>Edit Account</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'favicon.ico')}}" type="image/x-icon"/>
 </head>
 <body>
     <nav class="navbar-light navbar navbar-expand-sm p-2" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
@@ -50,8 +51,11 @@
                     <input type="email"  name = "email" class="form-control col-5" id="email" aria-describedby="emailHelp" value="{{customer.email}}">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
-                    <input type="submit" class="btn mb-2" style="color: #ffffff; background-color: #cc0505;">
-                    <a style = "color: #cc0505" href = '/update'></a>
+                <div class = "d-flex justify-content-around" style = "width:50%">
+                    <input type="submit" class="btn mb-2" style="color: #ffffff; background-color: #cc0505;">                    
+                    <a class = "btn mb-2" href = "/destroy_customer/{{customer.id}}" style = "color: #ffffff; background-color: #cc0505;"> Delete</a>
+                    </div>
+                </div>
             </form>
             {% with errors = get_flashed_messages(category_filter=['error']) %}     <!-- declare a variable called messages -->
                 {% if errors %}                            <!-- check if there are any messages -->

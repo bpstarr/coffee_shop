@@ -19,7 +19,7 @@ class Menu():
 
     @classmethod
     def get_all(cls):
-        query = "SELECT * FROM menu"
+        query = "SELECT * FROM menu;"
         results = connectToMySQL('coffee_shop').query_db(query)
 
         items = []

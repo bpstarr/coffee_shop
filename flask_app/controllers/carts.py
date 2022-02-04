@@ -4,7 +4,6 @@ from flask_app.models.employee import Employee
 from flask_app.models.size import Size
 from flask_app import app
 from flask import redirect,request, session,url_for,flash,render_template
-import json
 
 @app.route('/cart')
 def show_user_cart():
@@ -52,8 +51,8 @@ def add_product_to_cart():
             "product_id":product_id
         }
         size_data = {
-            "size_name": size_name,
-            "product_id":product_id
+            'size_name': size_name,
+            'product_id':product_id
         }
         product = Menu.show_single_item(user_data)
         size = Size.show_single_size_and_product(size_data)

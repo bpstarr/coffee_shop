@@ -49,6 +49,12 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+    <div class = "mt-2 ml-2">
+        <h5>Invoice: {{invoice}}</h5>
+        <h5>Order Status: {{order.order_status}}</h5>
+        <h5>Name: {{customers.first_name}} {{customers.last_name}}</h5>
+        <h5>Order Status: {{customers.email}}</h5>
+    </div>
     <div class = 'table-responsive-lg'>
         <table class = "table" style = "background-color: #095736; color: #ffffff;">
             <thead>
@@ -57,38 +63,48 @@
                     <th scope = 'col'>Price</th>
                     <th scope = 'col'>Size</th>
                     <th scope = 'col'>Quantity</th>
-                    <th scope = 'col'>Update</th>
-                    <th scope = 'col'>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {% for key, product in session['cart'].items() %}
+                {% for key, product in tuple_order.items() %}
                 <tr>
-                    <form action="{{url_for('update_cart',code =key)}}" method = 'POST'>
                     <td>{{product.name}}</td>
                     <td>${{ "%.2f"|format(product.price|float * product.quantity|int)}}</td>
                     <td>{{product.size}}</td>
-                    <td><input type="number" class = "" name = "quantity" value = "{{product.quantity}}" min= "1" max = "99"> </td>
-                    <td><input type="submit" class = "btn btn-danger" Value = "update"></td>
-                    </form>
-                    <td><a href="{{url_for('delete_item', id =key)}}" class = "btn btn-danger">Delete</a></td>
+                    <td>{{product.quantity}}</td>
                 </tr>
             </tbody>
             {% endfor %}
-
+        </table>
     </div>
-    <div container ="row justify-content-center">
-        <div class = "col-auto">
-            <table class = "table table-responsive">
-                <tbody>
-                    <tr>
-                        <td><h5>Total: ${{"%.2f"|format(grand_total)}}</h5></td>
-                        <td><a href="{{url_for('get_order')}}" class = "btn btn-danger">Order Now</a></td>
-                        <td><a href="{{url_for('clear_cart')}}" class = "btn btn-danger">Clear Cart</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class = 'table-responsive-sm'>   
+        <table class = "table">
+            <tr>
+                {% if tuple_order.paid != 'yes' %}
+                <td>
+                    <form action="{{url_for('payment')}}" method="post">
+                        {% set amount = grand_total.replace('.','') %}
+                        <input type="hidden" name = 'amount' value = '{{amount}}'>
+                        <input type="hidden" name = 'invoice' value = '{{invoice}}'>
+                        <script src="https://checkout.stripe.com/checkout.js"
+                            class="stripe-button"
+                            data-key= "pk_test_51KGDLWG4Gp97ezol1gzdxfeNffhhdRC8nr4oqm2b7Mrh5mukNlMIiih7hL3q3XsVqx1oDpwMAcxH7yHRJOT0sIjt007U3MqFfP"
+                            data-name="{{customers.first_name}} {{customers.last_name}}"
+                            data-description="Camo Cafe purchase"
+                            data-amount="{{amount}}"
+                            data-currency="usd">
+                        </script>
+                    </form>
+                </td>
+                {% endif %}
+                <td><h5>Total: ${{grand_total}}</h5></td>
+                <td>
+                    <form action="{{url_for('get_pdf',invoice=invoice)}}" method = "POST">
+                        <button type="submit" class="btn mb-2" style="color: #ffffff; background-color: #cc0505;">Get pdf</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </div>
     <footer class="footer pt-5 pb-5" style = "background-image: url({{ url_for('static', filename='pics/camo.png') }})" alt ="camo">
     </footer>

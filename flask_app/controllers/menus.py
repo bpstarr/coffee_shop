@@ -98,11 +98,12 @@ def edit_item_size_and_price(id):
     if 'employee_id' not in session:
         return redirect('/logout')
     data = {
-        'id':id,
         'name':request.form['size_name'],
-        'menu_id':request.form['menu_id']
+        'product_id':request.form['product_id'],
+        'price':request.form['price']
     }
     valid = Size.size_update_validator(data)
+    print(id)
     if not valid:
         return redirect(f'/item/{id}')
     print(valid)
