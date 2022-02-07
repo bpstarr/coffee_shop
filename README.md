@@ -1,4 +1,4 @@
-# My Camo Cafe #
+# Camo Cafe #
 
 Camo cafe is the coffee shop's online website where customers can buy coffee.The employees can finish orders and edit menu items. The backend was built with Python and Flask, while the frontend was built with the bootstrap framework and AJAX to make it more responsive.
 
