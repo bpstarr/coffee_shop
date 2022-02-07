@@ -124,6 +124,11 @@ def show_order_board():
     employees = Employee.show_single_user(user_data)
     return render_template('order_board.html',employees = employees, all_orders = all_orders)
 
+@app.route('/refresh_order_board')
+def refresh_order_board():
+    all_orders = Order.get_all_with_customer_info()
+    return redirect('/order_board')
+
 @app.route('/order_fulfilled', methods = ['GET','POST'])
 def order_fulfilled():
     if 'employee_id' not in session:
