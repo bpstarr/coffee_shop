@@ -38,6 +38,9 @@ Camo cafe is the coffee shop's online website where customers can buy coffee.The
 
 ![ezgif com-gif-maker (7)](https://user-images.githubusercontent.com/87786124/152700595-af9514b3-9cf9-43d1-a4de-9e4fc2fd240a.gif)
 
+##### * Showing pdf of receipt for order #####
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/87786124/153519116-8a81398b-5080-46e8-8a99-5bd5aae2e963.gif)
+
 #### Employee Side ####
 
 ##### * Adding a Menu Item ######
